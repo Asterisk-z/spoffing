@@ -75,41 +75,6 @@ import { Head } from '@inertiajs/vue3';
         <!-- END Row #4 -->
         </div>
 
-        <div class="block block-rounded">
-        <div class="block-header block-header-default text-center">
-            <h3 class="block-title">Recent Domain</h3>
-        </div>
-        <div class="block-content">
-            <table class="table table-striped table-vcenter">
-            <thead>
-                <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Access</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td class="fw-semibold">Adam McCoy</td>
-                <td class="d-none d-sm-table-cell">client1@example.com</td>
-                <td class="d-none d-md-table-cell">
-                    <span class="badge bg-primary">Personal</span>
-                </td>
-                <td class="text-center">
-                    <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="Edit">
-                        <i class="fa fa-pencil-alt"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="Delete">
-                        <i class="fa fa-times"></i>
-                    </button>
-                    </div>
-                </td>
-                </tr>
-            </tbody>
-            </table>
-        </div>
-        </div>
+
     </AuthenticatedLayout>
 </template>

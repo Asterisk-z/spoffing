@@ -2,9 +2,13 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Otp;
+use App\Models\User;
+use App\Notifications\OtpNotification;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -29,6 +33,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'otp' => ['nullable'],
         ];
     }
 
@@ -41,7 +46,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -53,13 +58,58 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Attempt to authenticate the request's credentials.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function find_user()
+    {
+        $user = User::where('email', $this->email)->first();
+        if (!$user || $user->status != "ACTIVE") {
+            throw ValidationException::withMessages([
+                'email' => 'Account Not Active Please contact Admin',
+            ]);
+        }
+
+        $password_check = Hash::check($this->password, $user->password);
+
+        if (!$password_check) {
+            throw ValidationException::withMessages([
+                'password' => 'Password Is Incorrect',
+            ]);
+        }
+
+        $otp = rand(9999, 999999);
+        Otp::create(['user_id' => $user->id, 'for' => 'login', 'pin' => $otp, 'expires_at' => now()->addMinutes(15)]);
+        $user->notify(new OtpNotification($otp));
+        return encrypt(['email' => $this->email, 'password' => $this->password]);
+
+    }
+
+    public function check_otp()
+    {
+        $otp = Otp::where('pin', $this->otp)->where('status', "ACTIVE")->where('expires_at', '>', now())->first();
+
+        if (!$otp) {
+            throw ValidationException::withMessages([
+                'otp' => 'Wrong OTP Check Email or contact Admin',
+            ]);
+        }
+
+        $otp->status = "EXPIRED";
+        $otp->expires_at = now();
+        $otp->save();
+
+    }
+
+    /**
      * Ensure the login request is not rate limited.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +130,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }

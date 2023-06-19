@@ -25,7 +25,6 @@ class OrganizationController extends Controller
             'name' => $data['name'],
             'user_id' => auth()->user()->id,
         ]);
-
         return Inertia::location(route('organization'));
     }
 

@@ -31,6 +31,7 @@ class User extends Authenticatable
         'requires_password_update',
         'temp_password',
         'role_id',
+        'status',
     ];
 
     /**
