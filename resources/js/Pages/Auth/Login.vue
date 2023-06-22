@@ -1,5 +1,18 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
+import Swal from 'sweetalert2'
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 7000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 const $props = defineProps({
     canResetPassword: {
@@ -106,32 +119,32 @@ const submitToken = () => {
                             <!-- END Header -->
 
                             <form class=""  @submit.prevent="submitToken">
-                            <div class="block block-themed block-rounded block-fx-shadow">
-                                <div class="block-header bg-gd-dusk">
-                                </div>
-                                <div class="block-content">
-                                <div class="form-floating mb-4">
-                                    <input type="text" class="form-control" :class="{'is-invalid' : form.errors.otp }" v-model="form.otp" required autofocus placeholder="Enter your otp">
-                                    <label class="form-label" for="login-username">Otp</label>
-                                    <div  v-if="form.errors.otp" class="invalid-feedback animated fadeIn">{{ form.errors.otp }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 text-sm-end push">
-                                        <button class="btn btn-lg btn-alt-primary fw-medium"  :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                            Verify
-                                        </button>
+                                <div class="block block-themed block-rounded block-fx-shadow">
+                                    <div class="block-header bg-gd-dusk">
+                                    </div>
+                                    <div class="block-content">
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control" :class="{'is-invalid' : form.errors.otp }" v-model="form.otp" required autofocus placeholder="Enter your otp">
+                                        <label class="form-label" for="login-username">Otp</label>
+                                        <div  v-if="form.errors.otp" class="invalid-feedback animated fadeIn">{{ form.errors.otp }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-sm-end push">
+                                            <button class="btn btn-lg btn-alt-primary fw-medium"  :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                                Verify
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="block-content block-content-full bg-body-light text-center d-flex justify-content-between">
+                                    <a class="fs-sm fw-medium link-fx text-muted me-2 mb-1 d-inline-block" :href="route('register')">
+                                        <i class="fa fa-plus opacity-50 me-1"></i> Create Account
+                                    </a>
+                                    <a class="fs-sm fw-medium link-fx text-muted me-2 mb-1 d-inline-block" :href="route('password.request')">
+                                        Forgot Password
+                                    </a>
                                     </div>
                                 </div>
-                                </div>
-                                <div class="block-content block-content-full bg-body-light text-center d-flex justify-content-between">
-                                <a class="fs-sm fw-medium link-fx text-muted me-2 mb-1 d-inline-block" :href="route('register')">
-                                    <i class="fa fa-plus opacity-50 me-1"></i> Create Account
-                                </a>
-                                <a class="fs-sm fw-medium link-fx text-muted me-2 mb-1 d-inline-block" :href="route('password.request')">
-                                    Forgot Password
-                                </a>
-                                </div>
-                            </div>
                             </form>
                             <!-- END Sign In Form -->
                         </div>

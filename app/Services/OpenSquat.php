@@ -2,11 +2,18 @@
 
 namespace App\Services;
 
+use App\Models\OrgDomain;
+
 class OpenSquat
 {
     public static function createfile()
     {
-        //CLear the file
+
+    }
+
+    public static function search()
+    {
+
         $main_file = 'keywords.txt';
         $file = fopen($main_file, 'w');
         ftruncate($file, 0);
@@ -16,21 +23,32 @@ class OpenSquat
         $current = file_get_contents($main_file);
         $current .= request('name');
         file_put_contents($main_file, $current);
-        // dd(dirname($current));
-    }
 
-    public static function search()
-    {
+        // Command
         $command = 'python ' . base_path() . '\opensquat\opensquat.py';
-        $command2 = "bash " . base_path() . "\opensquat\command.sh";
+        // $command2 = "bash " . base_path() . "\opensquat\command.sh";
 
         // $process = Process::run(escapeshellcmd($command))->errorOutput();
         // $output = null;
         // $retval = null;
         // exec($command, $output, $retval);
-        $res = shell_exec($command);
+        shell_exec($command);
 
-        dd($res);
+        $handle = fopen("results.txt", "r");
+        if ($handle) {
+            while (($file_line = fgets($handle)) !== false) {
+                // process the file_line read.
+                $file_line = str_replace(array("\r", "\n"), '', $file_line);
+                $domain = OrgDomain::where('name', $file_line)->where('organization_id', request('organization_id'))->first();
+                if (!$domain) {
+                    OrgDomain::create(['name' => $file_line, 'organization_id' => request('organization_id')]);
+                }
+            }
+
+            fclose($handle);
+        }
+
+        return true;
 
         // if (substr(php_uname(), 0, 7) == "Windows") {
 

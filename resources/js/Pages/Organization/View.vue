@@ -19,28 +19,26 @@ const props = defineProps({
     organization: {
         type: Object,
     },
+    domains: {
+        type: Object,
+    },
 });
 
 const form = useForm({
     name: props.organization.name,
+    organization_id: props.organization.id,
 });
 
-function submit() {
-    if (form.name == null) {
-        Toast.fire({
-            icon: 'error',
-            title: 'All fields are required'
-        })
-        return;
-    }
-
-    router.post('/organization-search', form)
-
-    Toast.fire({
-        icon: 'success',
-        title: 'Organization Created Successfully'
-    })
-
+function search() {
+    form.post(route('organization.search'), {
+        onFinish: () => {
+            Toast.fire({
+                icon: 'success',
+                title: 'Organization Search  Complete'
+            })
+        },
+        onSuccess: () => {},
+    });
 }
 
 </script>
@@ -52,8 +50,9 @@ function submit() {
         <div class="col-md-12">
             <div class="block block-rounded">
                 <div class="block-header px-5">
-                    <h2 class="block-title">{{ organization.name }}</h2>
-                    <a class="btn btn-info mr-3 text-capitalize" @click="submit" >Search Similar Domain</a>
+                    <h2 class="block-title" style="font-size: 30px;">{{ organization.name }}</h2>
+                    <a class="btn btn-info mr-3 text-capitalize" @click="search" v-if="!form.processing">Search Similar Domain</a>
+                    <a class="btn btn-info mr-3 text-capitalize" v-else>  <span class="spinner-border text-dark "></span> Searching</a>
                 </div>
                 <div class="block-content pb-5 px-5">
 
@@ -61,22 +60,21 @@ function submit() {
                         <thead>
                             <tr>
                                 <th>S/N</th>
-                                <th>Organization</th>
-                                <th>Other Domain </th>
+                                <th>Domain</th>
                                 <th style="width: 200px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="(organization, index) in $page.props.organizations" v-bind:key="organization">
+
+                            <tr v-for="(domain, index) in $page.props.domains" v-bind:key="domain">
                                 <td><a class="fw-semibold">{{ ++index }}</a></td>
-                                <td><a class="fw-semibold">{{ organization.name }}</a></td>
-                                <td><a class="fw-semibold">{{ '0' }}</a></td>
+                                <td><a class="fw-semibold">{{ domain.name }}</a></td>
                                 <td>
-                                    <a class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="View Organization" :href="route('organization.view', [organization.name, organization.id] )">
+                                    <a class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="View domain" :href="route('domain', [organization.id, domain.id, domain.name] )">
                                       <i class="fa fa-pencil-alt"></i>
                                     </a>
                                 </td>
-                            </tr> -->
+                            </tr>
                         </tbody>
                     </table>
                 </div>

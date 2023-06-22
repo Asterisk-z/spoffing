@@ -55,18 +55,18 @@ const showingNavigationDropdown = ref(false);
                         <span class="nav-main-link-name">Dashboard</span>
                       </a>
                     </li>
-                    <li class="nav-main-item">
+                    <li class="nav-main-item" v-if="$page.props.auth.user.role_id == 1">
                       <a class="nav-main-link" :href="route('users.list')">
                         <i class="nav-main-link-icon fa fa-grip-vertical"></i>
                         <span class="nav-main-link-name">Users</span>
                       </a>
                     </li>
-                    <li class="nav-main-item">
+                    <!-- <li class="nav-main-item">
                       <a class="nav-main-link" :href="route('domain.list')">
                         <i class="nav-main-link-icon fa fa-grip-vertical"></i>
                         <span class="nav-main-link-name">Domain Search</span>
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
                 <!-- END Side Navigation -->

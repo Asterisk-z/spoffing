@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
+use App\Models\OrgDomain;
 use App\Services\OpenSquat;
-use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class OrganizationController extends Controller
@@ -30,16 +31,19 @@ class OrganizationController extends Controller
 
     public function view()
     {
+
         $organization = Organization::where('user_id', auth()->user()->id)->where('name', request('domain'))->where('id', request('id'))->first();
+        $domains = OrgDomain::where('organization_id', $organization->id)->get();
         return Inertia::render('Organization/View', [
             "organization" => $organization,
+            "domains" => $domains,
         ]);
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        OpenSquat::createfile();
         OpenSquat::search();
+        return back();
     }
 
 }

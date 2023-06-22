@@ -7,8 +7,8 @@
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/codebase.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('./assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('./assets/css/codebase.min.css') }}">
 
     <!-- Scripts -->
     @routes
@@ -17,7 +17,7 @@
 </head>
 <body class="">
     @inertia
-    <script src="assets/js/pages/be_pages_dashboard.min.js"></script>
-    <script src="assets/js/codebase.app.min.js"></script>
+    <script src="{{ asset('./assets/js/pages/be_pages_dashboard.min.js') }}"></script>
+    <script src="{{ asset('./assets/js/codebase.app.min.js') }}"></script>
 </body>
 </html>

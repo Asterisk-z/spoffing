@@ -80,6 +80,7 @@ function submit() {
 
                                             <div class="mb-4">
                                                 <button class="btn btn-primary btn-primary-custom" type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                                    <span class="spinner-border text-dark " v-if="form.processing"></span>
                                                     <i class="fa fa-check opacity-50 me-1"></i>Create Organization
                                                 </button>
                                             </div>
