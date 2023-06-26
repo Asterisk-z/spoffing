@@ -131,7 +131,9 @@ function submit() {
                         </div>
                         <div class="mb-4">
                             <button class="btn btn-primary btn-primary-custom" type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                <i class="fa fa-check opacity-50 me-1"></i>Update Profile
+                                <span class="spinner-border text-dark me-1" v-if="form.processing"></span>
+                                <i class="fa fa-check opacity-50 me-1" v-else></i>
+                                Update Profile
                             </button>
                         </div>
                     </form>

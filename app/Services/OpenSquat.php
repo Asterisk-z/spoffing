@@ -11,7 +11,7 @@ class OpenSquat
 
     }
 
-    public static function search()
+    public static function search($name, $org_id)
     {
 
         $main_file = 'keywords.txt';
@@ -21,17 +21,12 @@ class OpenSquat
 
         //Add domain to file
         $current = file_get_contents($main_file);
-        $current .= request('name');
+        $current .= $name;
         file_put_contents($main_file, $current);
 
         // Command
         $command = 'python ' . base_path() . '\opensquat\opensquat.py';
-        // $command2 = "bash " . base_path() . "\opensquat\command.sh";
 
-        // $process = Process::run(escapeshellcmd($command))->errorOutput();
-        // $output = null;
-        // $retval = null;
-        // exec($command, $output, $retval);
         shell_exec($command);
 
         $handle = fopen("results.txt", "r");
@@ -39,9 +34,9 @@ class OpenSquat
             while (($file_line = fgets($handle)) !== false) {
                 // process the file_line read.
                 $file_line = str_replace(array("\r", "\n"), '', $file_line);
-                $domain = OrgDomain::where('name', $file_line)->where('organization_id', request('organization_id'))->first();
+                $domain = OrgDomain::where('name', $file_line)->where('organization_id', $org_id)->first();
                 if (!$domain) {
-                    OrgDomain::create(['name' => $file_line, 'organization_id' => request('organization_id')]);
+                    OrgDomain::create(['name' => $file_line, 'organization_id' => $org_id]);
                 }
             }
 
@@ -49,18 +44,6 @@ class OpenSquat
         }
 
         return true;
-
-        // if (substr(php_uname(), 0, 7) == "Windows") {
-
-        //     pclose(popen("start /B " . $command, "r"));
-
-        // } else {
-
-        //     exec($command . " > /dev/null &");
-
-        // }
-
-        // dd("Returned with status $retval and output:", $output, substr(php_uname(), 0, 7));
 
     }
 }

@@ -11,4 +11,9 @@ class Organization extends Model
 
     protected $fillable = ['name', 'user_id'];
 
+    public function domains()
+    {
+        return $this->hasMany(OrgDomain::class, 'organization_id', 'id');
+    }
+
 }

@@ -34,7 +34,7 @@ function search() {
         onFinish: () => {
             Toast.fire({
                 icon: 'success',
-                title: 'Organization Search  Complete'
+                title: 'Organization Search Complete'
             })
         },
         onSuccess: () => {},
@@ -51,8 +51,8 @@ function search() {
             <div class="block block-rounded">
                 <div class="block-header px-5">
                     <h2 class="block-title" style="font-size: 30px;">{{ organization.name }}</h2>
-                    <a class="btn btn-info mr-3 text-capitalize" @click="search" v-if="!form.processing">Search Similar Domain</a>
-                    <a class="btn btn-info mr-3 text-capitalize" v-else>  <span class="spinner-border text-dark "></span> Searching</a>
+                    <!-- <a class="btn btn-info mr-3 text-capitalize" @click="search" v-if="!form.processing">Search Similar Domain</a>
+                    <a class="btn btn-info mr-3 text-capitalize" v-else>  <span class="spinner-border text-dark "></span> Searching</a> -->
                 </div>
                 <div class="block-content pb-5 px-5">
 

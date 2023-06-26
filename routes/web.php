@@ -50,7 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/domain', [DomainController::class, 'detail'])->name('domain.detail');
 
     Route::middleware('is_admin')->group(function () {
-
         Route::get('/users', [UsersController::class, 'index'])->name('users.list');
         Route::get('/user/{user_id}', [UsersController::class, 'view'])->name('user.view');
         Route::post('/user', [UsersController::class, 'update'])->name('user.update');

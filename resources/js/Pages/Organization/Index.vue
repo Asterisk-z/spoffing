@@ -34,14 +34,40 @@ function submit() {
         return;
     }
 
-    router.post('/organization', form)
+    form.post(route('organization'), {
+        onFinish: (response) => {
+            Toast.fire({
+                icon: 'success',
+                title: 'Organization Created Successfully'
+            })
 
-    Toast.fire({
-        icon: 'success',
-        title: 'Organization Created Successfully'
-    })
+            console.log(response);
+            //  search()
+
+        },
+        onSuccess: () => { },
+    });
+
+
 
 }
+// const formtwo = useForm({
+//     name: form.name,
+//     // organization_id: props.organization.id,
+// });
+
+// function search() {
+//     formtwo.post(route('organization.search'), {
+//         onFinish: () => {
+//             Toast.fire({
+//                 icon: 'success',
+//                 title: 'Organization Search Complete'
+//             })
+//         },
+//         onSuccess: () => { },
+//     });
+// }
+
 
 </script>
 
@@ -107,7 +133,7 @@ function submit() {
                             <tr v-for="(organization, index) in $page.props.organizations" v-bind:key="organization">
                                 <td><a class="fw-semibold">{{ ++index }}</a></td>
                                 <td><a class="fw-semibold">{{ organization.name }}</a></td>
-                                <td><a class="fw-semibold">{{ '0' }}</a></td>
+                                <td><a class="fw-semibold">{{ organization.domains.length }}</a></td>
                                 <td>
                                     <a class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="View Organization" :href="route('organization.view', [organization.name, organization.id] )">
                                       <i class="fa fa-pencil-alt"></i>

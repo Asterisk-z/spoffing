@@ -62,6 +62,7 @@ domain();
                      <div class="spinner-grow spinner-border-sm text-dark" role="status" v-if="form.processing">
                         <span class="sr-only">Loading...</span>
                       </div>
+                    <button class="pull-left">Report Domain</button>
                 </div>
             </div>
             <!-- {{ JSON.parse(props.details?.links) }} -->
