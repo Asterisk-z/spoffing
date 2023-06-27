@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class SearchSimiliarDomain extends Command
 {
@@ -11,7 +12,7 @@ class SearchSimiliarDomain extends Command
      *
      * @var string
      */
-    protected $signature = 'app:search-similiar-domain';
+    protected $signature = 'domain:search';
 
     /**
      * The console command description.
@@ -25,6 +26,15 @@ class SearchSimiliarDomain extends Command
      */
     public function handle()
     {
-        //
+        // $organizations = Organization::all();
+
+        // foreach ($organizations as $organization) {
+
+        //     // OpenSquat::search($organization->name, $organization->id);
+
+        // }
+
+        Log::info("Cron is working fine!");
+
     }
 }

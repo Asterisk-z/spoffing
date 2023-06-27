@@ -23,7 +23,9 @@ const Toast = Swal.mixin({
         <div class="col-md-12">
             <div class="block block-rounded">
                 <div class="block-header px-5">
-                    <h2 class="block-title">Profile</h2>
+                    <a class="btn btn-secondary mr-3 text-capitalize" :href="route('dashboard')">Back</a>
+                    <h2 class="block-title" style="font-size: 20px; text-transform: uppercase;">Profile</h2>
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('profile.change-password')">Change Password</a>
                     <a class="btn btn-info mr-3 text-capitalize" :href="route('profile.edit')">Update Profile</a>
                 </div>
                 <div class="block-content pb-5 px-5">

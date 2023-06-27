@@ -40,10 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile-update', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile-change-password', [ProfileController::class, 'change_password'])->name('profile.change-password');
+    Route::post('/profile-change-password', [ProfileController::class, 'update_password'])->name('profile.change-password');
 
     Route::get('/organization', [OrganizationController::class, 'index'])->name('organization');
     Route::post('/organization', [OrganizationController::class, 'store'])->name('organization');
     Route::get('/organization/{domain}/{id}', [OrganizationController::class, 'view'])->name('organization.view');
+    Route::get('/organization/{domain}/{id}/latest', [OrganizationController::class, 'view_latest'])->name('organization.view.latest');
     Route::post('/organization-search', [OrganizationController::class, 'search'])->name('organization.search');
 
     Route::get('/domain/{org_id}/{id}/{domain}', [DomainController::class, 'index'])->name('domain');
@@ -58,7 +61,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/pending', [UsersController::class, 'pending'])->name('users.list.pending');
         Route::get('/user-create', [UsersController::class, 'create'])->name('user.create');
         Route::post('/user-create', [UsersController::class, 'store'])->name('user.create');
-
     });
 
 });

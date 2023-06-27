@@ -38,18 +38,14 @@ const Toast = Swal.mixin({
 })
 
 const form = useForm({
-    user_id: props.auth_user.id,
-    first_name: props.auth_user.first_name,
-    last_name: props.auth_user.last_name,
-    address: props.auth_user.address,
-    phone_number: props.auth_user.phone_number,
-    city: props.auth_user.city,
-    province: props.auth_user.province,
-    timezone: props.auth_user.timezone,
+    user_id: '',
+    old_password: '',
+    new_password: '',
+    confirm_password: '',
 });
 
-function submit() {
-    if (form.first_name == null || form.last_name == null  || form.address == null || form.phone_number == null || form.city == null || form.province == null || form.timezone == null) {
+function submit(id) {
+    if (form.old_password == null || form.new_password == null || form.confirm_password == null) {
         Toast.fire({
             icon: 'error',
             title: 'All fields are required'
@@ -57,12 +53,18 @@ function submit() {
         return;
     }
 
-    router.post('/profile-update', form)
+    form.user_id = id
 
-    Toast.fire({
-        icon: 'success',
-        title: 'Profile Created Successfully'
+    form.post(route('profile.change-password'), {
+        onFinish: (response) => {
+            Toast.fire({
+                icon: 'success',
+                title: 'Password Updated Successfully'
+            })
+        },
+        onSuccess: () => { },
     })
+
 }
 </script>
 
@@ -74,58 +76,32 @@ function submit() {
             <div class="block block-rounded" href="javascript:void(0)">
                 <div class="block-header px-5">
                     <a class="btn btn-info mr-3 text-capitalize" :href="route('profile')">Back</a>
-                    <h2 class="block-title" style="font-size: 20px; text-transform: uppercase;">Update Profile</h2>
+                    <h2 class="block-title" style="font-size: 20px; text-transform: uppercase;">Update Password</h2>
                 </div>
                 <div class="block-content pb-5 px-5">
-                    <form  @submit.prevent="submit">
+                    <form  @submit.prevent="submit($page.props.auth.user.id)">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row mb-4">
                                     <div class="col-6">
-                                        <label class="form-label">Firstname </label>
-                                        <input type="text" class="form-control form-control-lg"  v-model="form.first_name" placeholder="Enter your firstname..">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label">Lastname</label>
-                                        <input type="text" class="form-control form-control-lg"  v-model="form.last_name" placeholder="Enter your lastname..">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row mb-4">
-                                    <div class="col-12">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" class="form-control form-control-lg"  v-model="form.address" placeholder="Enter your address..">
+                                        <label class="form-label">Old Password </label>
+                                        <input type="password" class="form-control form-control-lg"  v-model="form.old_password" placeholder="Enter your Old Password..">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="row mb-4">
                                     <div class="col-6">
-                                            <label class="form-label">City</label>
-                                            <input type="text" class="form-control form-control-lg"  v-model="form.city" placeholder="Enter your city..">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control form-control-lg"  v-model="form.phone_number" placeholder="Enter your phone number..">
+                                        <label class="form-label">New Password</label>
+                                        <input type="password" class="form-control form-control-lg"  v-model="form.new_password" placeholder="Enter your New Password..">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="row mb-4">
                                     <div class="col-6">
-                                        <label class="form-label">Province</label>
-                                        <select class="form-select" v-model="form.province">
-                                            <option :value="null">Select A Province</option>
-                                            <option v-for="province in provinces" v-bind:key="province" :value="province">{{ province }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label">TImezone</label>
-                                        <select class="form-select" v-model="form.timezone">
-                                            <option :value="null">Select A timezone</option>
-                                            <option v-for="timezone in timezones" v-bind:key="timezone" :value="timezone.location">{{ timezone.time }}</option>
-                                        </select>
+                                        <label class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control form-control-lg"  v-model="form.confirm_password" placeholder="Enter your Confirm Password..">
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +110,7 @@ function submit() {
                             <button class="btn btn-primary btn-primary-custom" type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                 <span class="spinner-border text-dark me-1" v-if="form.processing"></span>
                                 <i class="fa fa-check opacity-50 me-1" v-else></i>
-                                Update Profile
+                                Update Password
                             </button>
                         </div>
                     </form>

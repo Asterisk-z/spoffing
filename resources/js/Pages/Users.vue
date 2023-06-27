@@ -38,7 +38,7 @@ const approve = (id) => {
                 title: 'User Activated Successfully'
             })
         },
-        onSuccess: () => { },
+        onSuccess: () => {},
     });
 
 };

@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -68,5 +69,31 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function change_password()
+    {
+        return Inertia::render('Profile/Password');
+    }
+
+    public function update_password(FacadesRequest $request): RedirectResponse
+    {
+
+        // $request->user()->fill($request->validated());
+
+        // $request->validate([
+        //     'old_password' => "required",
+        //     'new_password' => "required",
+        //     'confirm_password' => "required",
+        // ]);
+
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
+
+        // $request->user()->password = Hash::make($request->new_password);
+        // $request->user()->save();
+
+        return Redirect::route('profile');
     }
 }

@@ -50,9 +50,12 @@ function search() {
         <div class="col-md-12">
             <div class="block block-rounded">
                 <div class="block-header px-5">
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization')">Back</a>
                     <h2 class="block-title" style="font-size: 30px;">{{ organization.name }}</h2>
+                    <!-- {{  }} -->
                     <!-- <a class="btn btn-info mr-3 text-capitalize" @click="search" v-if="!form.processing">Search Similar Domain</a>
                     <a class="btn btn-info mr-3 text-capitalize" v-else>  <span class="spinner-border text-dark "></span> Searching</a> -->
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view.latest', [organization.name, organization.id])">Last 24 Hours</a>
                 </div>
                 <div class="block-content pb-5 px-5">
 

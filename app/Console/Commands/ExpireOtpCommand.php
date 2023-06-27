@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Otp;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ExpireOtpCommand extends Command
 {
@@ -26,6 +27,7 @@ class ExpireOtpCommand extends Command
      */
     public function handle()
     {
+        Log::info("Cron From Expired OTP!");
         $otps = Otp::where('expires_at', '<', now())->where('status', '!=', 'EXPIRED')->get();
         foreach ($otps as $key => $otp) {
             $otp->status = "EXPIRED";

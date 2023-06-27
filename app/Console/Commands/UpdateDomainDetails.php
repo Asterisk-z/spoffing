@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\OrgDomain;
+use App\Services\PulseDive;
 use Illuminate\Console\Command;
 
 class UpdateDomainDetails extends Command
@@ -11,7 +13,7 @@ class UpdateDomainDetails extends Command
      *
      * @var string
      */
-    protected $signature = 'app:update-domain-details';
+    protected $signature = 'update:domain-details';
 
     /**
      * The console command description.
@@ -25,6 +27,14 @@ class UpdateDomainDetails extends Command
      */
     public function handle()
     {
-        //
+        $domains = OrgDomain::orderBy('created_at', 'ASC')->get();
+
+        foreach ($domains as $domain) {
+
+            PulseDive::search($domain->name, $domain->id);
+
+        }
+
+        dd($domains);
     }
 }
