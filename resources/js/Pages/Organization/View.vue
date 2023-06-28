@@ -22,6 +22,9 @@ const props = defineProps({
     domains: {
         type: Object,
     },
+    all: {
+        type: Boolean
+    }
 });
 
 const form = useForm({
@@ -51,11 +54,9 @@ function search() {
             <div class="block block-rounded">
                 <div class="block-header px-5">
                     <a class="btn btn-info mr-3 text-capitalize" :href="route('organization')">Back</a>
-                    <h2 class="block-title" style="font-size: 30px;">{{ organization.name }}</h2>
-                    <!-- {{  }} -->
-                    <!-- <a class="btn btn-info mr-3 text-capitalize" @click="search" v-if="!form.processing">Search Similar Domain</a>
-                    <a class="btn btn-info mr-3 text-capitalize" v-else>  <span class="spinner-border text-dark "></span> Searching</a> -->
-                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view.latest', [organization.name, organization.id])">Last 24 Hours</a>
+                    <h2 class="block-title" style="font-size: 30px;">{{ organization.name }} {{ (!$page.props.all) ? "domain for the last 24 hours" : "" }}</h2>
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view', [organization.name, organization.id])" v-if="!$page.props.all">All Domain</a>
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view.latest', [organization.name, organization.id])" v-else>Last 24 Hours</a>
                 </div>
                 <div class="block-content pb-5 px-5">
 
@@ -69,7 +70,7 @@ function search() {
                         </thead>
                         <tbody>
 
-                            <tr v-for="(domain, index) in $page.props.domains" v-bind:key="domain">
+                            <tr v-for="(domain, index) in $page.props.domains.data" v-bind:key="domain">
                                 <td><a class="fw-semibold">{{ ++index }}</a></td>
                                 <td><a class="fw-semibold">{{ domain.name }}</a></td>
                                 <td>
@@ -78,8 +79,34 @@ function search() {
                                     </a>
                                 </td>
                             </tr>
+
                         </tbody>
+
                     </table>
+
+                    <nav aria-label="Page navigation pull-right" v-if="$page.props.domains.links.length > 3">
+                        <ul class="pagination pagination-sm">
+                            <template v-for="(link, p) in $page.props.domains.links" :key="p">
+                                <li class="page-item" v-if="link.label.includes('Previous')">
+                                    <a class="page-link" :href="link.url" tabindex="-1" aria-label="Previous">
+                                        <span aria-hidden="true" class="">
+                                            <i class="fa fa-angle-double-left mr-2"></i> Previous
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="page-item" v-else-if="link.label.includes('Next')">
+                                    <a class="page-link" :href="link.url" aria-label="Next">
+                                        <span aria-hidden="true" class="">
+                                            Next<i class="fa fa-angle-double-right ml-2"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="page-item" :class="{ active: link.active }" v-else>
+                                    <a class="page-link" :href="link.url">{{ link.label }}</a>
+                                </li>
+                            </template>
+                            </ul>
+                    </nav>
                 </div>
             </div>
         </div>

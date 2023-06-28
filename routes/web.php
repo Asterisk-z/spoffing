@@ -3,6 +3,7 @@
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,12 +46,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/organization', [OrganizationController::class, 'index'])->name('organization');
     Route::post('/organization', [OrganizationController::class, 'store'])->name('organization');
+    Route::post('/organization/cancel', [OrganizationController::class, 'cancel'])->name('organization.cancel');
+    Route::post('/organization/activate', [OrganizationController::class, 'activate'])->name('organization.activate');
     Route::get('/organization/{domain}/{id}', [OrganizationController::class, 'view'])->name('organization.view');
     Route::get('/organization/{domain}/{id}/latest', [OrganizationController::class, 'view_latest'])->name('organization.view.latest');
     Route::post('/organization-search', [OrganizationController::class, 'search'])->name('organization.search');
 
     Route::get('/domain/{org_id}/{id}/{domain}', [DomainController::class, 'index'])->name('domain');
     Route::post('/domain', [DomainController::class, 'detail'])->name('domain.detail');
+
+    Route::get('/report/{domain}/{id}', [ReportController::class, 'index'])->name('report');
 
     Route::middleware('is_admin')->group(function () {
         Route::get('/users', [UsersController::class, 'index'])->name('users.list');

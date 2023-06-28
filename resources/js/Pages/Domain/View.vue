@@ -58,11 +58,12 @@ domain();
         <div class="col-md-12">
             <div class="block block-rounded">
                 <div class="block-header px-5">
+                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization')">Back</a>
                     <h1 class="block-title" style="font-size: 30px;">{{ props.domain.name }}</h1>
                      <div class="spinner-grow spinner-border-sm text-dark" role="status" v-if="form.processing">
                         <span class="sr-only">Loading...</span>
                       </div>
-                    <button class="pull-left">Report Domain</button>
+                    <a class="btn btn-danger mr-3 pull-left"  :href="route('report', [props.domain.name, props.domain.id])">Report Domain</a>
                 </div>
             </div>
             <!-- {{ JSON.parse(props.details?.links) }} -->

@@ -48,25 +48,63 @@ function submit() {
         onSuccess: () => { },
     });
 
+}
 
+function cancel(id) {
+    Swal.fire({
+        title: 'Do you want to disable this organization?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: "No"
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            const cancel_form = useForm({
+                org_id: id,
+            });
+            cancel_form.post(route('organization.cancel'), {
+                onFinish: (response) => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Organization Updated Successfully'
+                    })
+                },
+                onSuccess: () => { },
+            });
+        } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+        }
+    })
+}
+
+function activate(id) {
+
+    Swal.fire({
+        title: 'Do you want to disable this organization?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: "No"
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            const activate_form = useForm({
+                org_id: id,
+            });
+            activate_form.post(route('organization.activate'), {
+                onFinish: (response) => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Organization Updated Successfully'
+                    })
+                },
+                onSuccess: () => { },
+            });
+        } else if (result.isDenied) {
+            // Swal.fire('Changes are not saved', '', 'info')
+        }
+    })
 
 }
-// const formtwo = useForm({
-//     name: form.name,
-//     // organization_id: props.organization.id,
-// });
-
-// function search() {
-//     formtwo.post(route('organization.search'), {
-//         onFinish: () => {
-//             Toast.fire({
-//                 icon: 'success',
-//                 title: 'Organization Search Complete'
-//             })
-//         },
-//         onSuccess: () => { },
-//     });
-// }
 
 
 </script>
@@ -130,7 +168,7 @@ function submit() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(organization, index) in $page.props.organizations" v-bind:key="organization">
+                            <tr v-for="(organization, index) in $page.props.organizations.data" v-bind:key="organization">
                                 <td><a class="fw-semibold">{{ ++index }}</a></td>
                                 <td><a class="fw-semibold">{{ organization.name }}</a></td>
                                 <td><a class="fw-semibold">{{ organization.domains.length }}</a></td>
@@ -138,10 +176,43 @@ function submit() {
                                     <a class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" title="View Organization" :href="route('organization.view', [organization.name, organization.id] )">
                                       <i class="fa fa-pencil-alt"></i>
                                     </a>
+
+                                    <a class="btn btn-sm btn-danger m-2" data-bs-toggle="tooltip" title="Cancel Organization" @click="cancel(organization.id)" v-if="organization.status == 'ACTIVE'">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-success m-2" data-bs-toggle="tooltip" title="Activate Organization" @click="activate(organization.id)" v-else>
+                                        <i class="fa fa-check"></i>
+                                    </a>
                                 </td>
                             </tr>
+
                         </tbody>
+
                     </table>
+
+                                <nav aria-label="Page navigation pull-right" v-if="$page.props.organizations.links.length > 3">
+                                    <ul class="pagination pagination-sm">
+                                        <template v-for="(link, p) in $page.props.organizations.links" :key="p">
+                                            <li class="page-item" v-if="link.label.includes('Previous')">
+                                                <a class="page-link" :href="link.url" tabindex="-1" aria-label="Previous">
+                                                    <span aria-hidden="true" class="">
+                                                        <i class="fa fa-angle-double-left mr-2"></i> Previous
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item" v-else-if="link.label.includes('Next')">
+                                                <a class="page-link" :href="link.url" aria-label="Next">
+                                                    <span aria-hidden="true" class="">
+                                                        Next<i class="fa fa-angle-double-right ml-2"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item" :class="{ active: link.active }" v-else>
+                                                <a class="page-link" :href="link.url">{{ link.label }}</a>
+                                            </li>
+                                        </template>
+                                     </ul>
+                                </nav>
                 </div>
             </div>
         </div>
