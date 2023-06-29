@@ -60,6 +60,7 @@ domain();
                 <div class="block-header px-5">
                     <a class="btn btn-info mr-3 text-capitalize" :href="route('organization')">Back</a>
                     <h1 class="block-title" style="font-size: 30px;">{{ props.domain.name }}</h1>
+
                      <div class="spinner-grow spinner-border-sm text-dark" role="status" v-if="form.processing">
                         <span class="sr-only">Loading...</span>
                       </div>
@@ -99,38 +100,18 @@ domain();
                           <p class="d-none d-md-block fs-xs fw-medium opacity-75 mt-md-2 mb-0"></p>
                         </button>
                       </li>
+                      <li  class="nav-item d-md-flex flex-md-column">
+                        <a class="btn btn-info btn-sm mr-3 text-lowercase pull-left" :href="'https://' + props.domain.name" target="_blank">view site</a>
+                      </li>
                     </ul>
                     <div class="tab-content col-md-8 col-xxl-9">
                       <div class="block-content tab-pane active" id="btabs-vertical-info-home" role="tabpanel" aria-labelledby="btabs-vertical-info-home-tab" tabindex="0">
                         <h4 class="fw-semibold" style="font-size: 28px;">General</h4>
                                             <!-- props.details?.links -->
-                        <template v-if="false">
-                            <template v-for="(linkValue, linkName, index) in JSON.parse(props.details?.links)" v-bind:key="linkValue">
+                            <iframe :src="'https://'+ props.domain.name"  referrerpolicy="no-referrer|no-referrer-when-downgrade|origin|origin-when-cross-origin|same-origin|strict-origin-when-cross-origin|unsafe-url" title="Detail"  width="100%" height="700"></iframe>
+                        <!-- <template v-if="false">
 
-                                <h3 class="fw-bold" style="font-size: 25px;">{{ linkName }}</h3>
-
-                                <table class="table table-borderless table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 200px;"></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template v-for="(value, name, index) in linkValue" v-bind:key="value">
-
-                                            <tr v-for="(mainValue, mainName, mainindex) in value" v-bind:key="mainValue">
-                                                <template v-if="mainName != 'summary'">
-                                                    <td><a class="fw-semibold">{{ mainName }}</a></td>
-                                                    <td><span class="fw-bold">{{ mainValue }}</span> </td>
-                                                </template>
-                                            </tr>
-                                        </template>
-
-                                    </tbody>
-                                </table>
-                            </template>
-                        </template>
+                        </template> -->
                       </div>
                       <div class="block-content tab-pane" id="btabs-vertical-info-profile" role="tabpanel" aria-labelledby="btabs-vertical-info-profile-tab" tabindex="0">
                             <h4 class="fw-semibold" style="font-size: 28px;">Risk Factors</h4>

@@ -99,7 +99,7 @@ function submit() {
                                 <th>S/N</th>
                                 <th>Organization</th>
                                 <th>Other Domain </th>
-                                <th style="width: 200px;">Action</th>
+                                <th style="width: 200px;">View</th>
                             </tr>
                         </thead>
                         <tbody>

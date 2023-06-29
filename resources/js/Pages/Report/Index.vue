@@ -28,16 +28,16 @@ const sites = [
     { "name" : "BrightCloud", "link" : "https://www.brightcloud.com/tools/url-ip-lookup.php"},
     { "name" : "CRDF", "link" : "https://threatcenter.crdf.fr/submit_url.html"},
     { "name" : "Netcraft", "link" : "https://report.netcraft.com/report"},
-    { "name" : "Palo Alto Networks", "link" : "https://urlfiltering.paloaltonetworks"},
+    { "name" : "Palo Alto Networks", "link" : "https://urlfiltering.paloaltonetworks.com/"},
     { "name" : "ESET", "link" : "https://phishing.eset.com/en-us/report"},
-    { "name" : "Trend Micro", "link" : "https://global.sitesafety.trendmicro"},
-    { "name" : "BitDefender", "link" : "https://www.bitdefender.com/consumer/"},
+    { "name" : "Trend Micro", "link" : "https://global.sitesafety.trendmicro.com/index.php"},
+    { "name" : "BitDefender", "link" : "https://www.bitdefender.com/consumer/support/answer/29358/"},
     { "name" : "McAfee", "link" : "https://sitelookup.mcafee.com/"},
     { "name" : "Forcepoint", "link" : "https://csi.forcepoint.com/"},
     { "name" : "Symantec", "link" : "https://sitereview.symantec.com/#/"},
     { "name" : "Spam404", "link" : "https://www.spam404.com/report.html"},
     { "name" : "Kaspersky", "link" : "https://opentip.kaspersky.com/"},
-    { "name" : "Cisco Talos", "link" : "https://talosintelligence.com/reputat"},
+    { "name" : "Cisco Talos", "link" : "https://talosintelligence.com/reputation_center"},
 ]
 
 

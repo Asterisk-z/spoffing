@@ -11,13 +11,16 @@ class AlertOnNewDomain extends Notification
     use Queueable;
 
     public $user;
+    public $domain;
+    public $List;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($domain, $List)
     {
-        // $this->user = $user;/
+        $this->domain = $domain;
+        $this->List = $List;
     }
 
     /**
@@ -37,7 +40,8 @@ class AlertOnNewDomain extends Notification
     {
         return (new MailMessage)
             ->line('Hello')
-            ->line('You have a new domain similiar to one of your domain')
+            ->line('You have a new domain similar to one of your' . $this->domain)
+            ->line(implode($this->List))
             ->line('Login to see details')
             // ->line('Hello')
             ->action('Login', url('/'));

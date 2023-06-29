@@ -55,8 +55,8 @@ function search() {
                 <div class="block-header px-5">
                     <a class="btn btn-info mr-3 text-capitalize" :href="route('organization')">Back</a>
                     <h2 class="block-title" style="font-size: 30px;">{{ organization.name }} {{ (!$page.props.all) ? "domain for the last 24 hours" : "" }}</h2>
-                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view', [organization.name, organization.id])" v-if="!$page.props.all">All Domain</a>
-                    <a class="btn btn-info mr-3 text-capitalize" :href="route('organization.view.latest', [organization.name, organization.id])" v-else>Last 24 Hours</a>
+                    <a class="btn btn-info mr-3 text-capitalize" :href="!$page.props.all ? route('organization.view', [organization.name, organization.id]) : '#'"  :class="{ 'opacity-25': $page.props.all }" :disabled="$page.props.all">All Domain</a>
+                    <a class="btn btn-info mr-3 text-capitalize" :href="$page.props.all ? route('organization.view.latest', [organization.name, organization.id]) : '#'" :class="{ 'opacity-25': !$page.props.all }"  v-bind:aria-disabled="$page.props.all">Last 24 Hours</a>
                 </div>
                 <div class="block-content pb-5 px-5">
 
@@ -65,7 +65,7 @@ function search() {
                             <tr>
                                 <th>S/N</th>
                                 <th>Domain</th>
-                                <th style="width: 200px;">Action</th>
+                                <th style="width: 200px;">View</th>
                             </tr>
                         </thead>
                         <tbody>

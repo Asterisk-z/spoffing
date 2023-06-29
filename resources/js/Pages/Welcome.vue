@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link , router, useForm } from '@inertiajs/vue3';
 
 defineProps({
     canLogin: {
@@ -17,25 +17,183 @@ defineProps({
         required: true,
     },
 });
+
+const form = useForm({
+    domain: "",
+});
+
+let data = 'Here';
+
+const search = () => {
+    form.post(route('search.domain'), {
+        onFinish: ($response) => {
+            console.log($response);
+            data = $response
+        },
+        onSuccess: () => { },
+    });
+}
 </script>
 
 <template>
     <Head title="Welcome" />
 
             <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
-                <div class="container px-5">
-                    <a class="navbar-brand fw-bold" href="#page-top">Yespoff</a>
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm p-0" id="mainNav">
+                <div class="container-fluid px-5 py-5 navbar-top">
+                    <!-- <a class="navbar-brand fw-bold" href="#page-top">Yespoff</a> -->
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
                         <!-- <li class="nav-item"><a class="nav-link me-lg-3" href="#download">Download</a></li> -->
                     </ul>
-                    <a class="btn btn-primary px-3 mb-2 mb-lg-0" :href="route('login')">
+                    <a class=" px-3 mb-2 mb-lg-0 mr-5">
+                        <span class="d-flex align-items-center">
+                            <span class="large text-black text-uppercase font-bolder">Contact Us</span>
+                        </span>
+                    </a>
+                    <a class="btn btn-secondary px-3 mb-2 mb-lg-0 mr-5" :href="route('login')"  style="background-color: black; ">
+                        <span class="d-flex align-items-center">
+                            <span class="large">Sign Up</span>
+                        </span>
+                    </a>
+                    <a class="btn btn-secondary px-3 mb-2 mb-lg-0" :href="route('login')" style="background-color: black; ">
                         <span class="d-flex align-items-center">
                             <span class="large">Login</span>
                         </span>
                     </a>
                 </div>
             </nav>
+            <!-- Mashead header-->
+            <header class="masthead">
+                <div class="container px-5 py-8">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6">
+                            <!-- Mashead text and app badges-->
+                            <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                                <h1 class="display-1 lh-base mb-3 text-white text-uppercase" style="font-weight: 900; font-size: 100px;">Spoffing<br> Spoofng</h1>
+                                <p class="lead fw-normal text-white mb-5" style="font-weight: 900; font-size: 30px;">Detect and report Spoofing websites!</p>
+                                <div class="d-flex flex-column flex-lg-row align-items-center">
+                                    <form>
+                                        <div class="input-group w-[550px] ">
+                                            <input type="text" class="form-control py-3 text-black" placeholder="Search Domain" v-model="form.domain">
+                                            <button type="button" class="btn btn-secondary px-5" style="background-color: black; " @click="search">
+                                                <div class="spinner-grow spinner-border-sm text-white" role="status" v-if="form.processing">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- Masthead device mockup feature-->
+                            <div class="masthead-device-mockup">
+                                <img class="img-fluid" src="assets/media/photos/expre.svg" alt="Hero Promo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+
+        <div id="page-container" class="page-header-fixed page-header-glass main-content-boxed" v-if="false">
+
+          <!-- Header -->
+          <header id="page-header">
+            <!-- Header Content -->
+            <div class="content-header">
+              <!-- Left Section -->
+              <div class="space-x-1 d-flex align-items-center space-x-2">
+                <!-- Logo -->
+                <a class="fw-bold" href="#">
+                    <span class="fs-4 text-dual">ye</span><span class="fs-4 text-primary">spoff</span>
+                </a>
+                <!-- END Logo -->
+
+              </div>
+              <!-- END Left Section -->
+
+              <!-- Right Section -->
+              <div class="space-x-1">
+                <a class="btn btn-alt-primary px-3" :href="route('dashboard')">
+                  <span class="ms-1 d-none d-sm-inline-block">Login</span>
+                </a>
+              </div>
+              <!-- END Right Section -->
+            </div>
+            <!-- END Header Content -->
+          </header>
+          <!-- END Header -->
+
+          <!-- Main Container -->
+          <main id="main-container">
+
+            <!-- Hero -->
+            <div class="bg-body-extra-light hero-bubbles">
+              <div class="position-relative d-flex align-items-center">
+                <div class="content content-full">
+                  <div class="row g-6 w-100 py-7 overflow-hidden">
+                    <div class="col-md-7 order-md-last py-4 d-md-flex align-items-md-center justify-content-md-end">
+                      <img class="img-fluid" src="assets/media/photos/expre.svg" alt="Hero Promo">
+                    </div>
+                    <div class="col-md-5 py-4 d-flex align-items-center">
+                      <div class="text-center text-md-start">
+                        <h1 class="fw-bold fs-1 mb-3">
+                          Spoffing
+                        </h1>
+                        <h1 class="fw-bold fs-2 mb-3">
+                          Spoofng
+                        </h1>
+                        <p class="text-muted fw-medium mb-4">
+                           Beware the wicked wiles of spoofers!
+                        </p>
+                        <a class="btn btn-alt-primary py-3 px-4" :href="route('register')">
+                          <i class="fa fa-arrow-right opacity-50 me-1"></i> Sign up
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END Hero -->
+
+            <!-- Call to Action -->
+            <div class="bg-body-extra-light">
+              <div class="content content-full text-center overflow-hidden">
+                <div class="py-7">
+                  <h2 class="fw-bold mb-2">
+                    Built by yieldexchange
+                  </h2>
+                  <h3 class="h4 fw-medium text-muted mb-5">
+
+                  </h3>
+                  <a class="btn btn-sm btn-alt-primary mb-2 py-3 px-4" :href="route('dashboard')">
+                    Login
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- END Call to Action -->
+
+            <!-- Footer -->
+            <footer id="page-footer" class="bg-body-dark">
+              <div class="content py-5">
+                <div class="row fs-sm">
+                  <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
+
+                  </div>
+                  <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
+
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- END Footer -->
+          </main>
+          <!-- END Main Container -->
+        </div>
 
     <div v-if="false"
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
@@ -348,5 +506,13 @@ defineProps({
     .dark\:bg-dots-lighter {
         background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
     }
+}
+.masthead {
+    background-color: red;
+    height: 100vh;
+}
+
+.navbar-top {
+    background-color: red;
 }
 </style>
